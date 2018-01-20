@@ -1,0 +1,80 @@
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab03$ export GITHUB_USERNAME=vaulex
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab03$ cd ../..
+vaulex@vm-mgtu:~/vaulex/workspace$ pushd .
+~/vaulex/workspace ~/vaulex/workspace
+vaulex@vm-mgtu:~/vaulex/workspace$ source scripts/activate
+vaulex@vm-mgtu:~/vaulex/workspace$ git clone https://github.com/${GITHUB_USERNAME}/lab03.git projects/lab04
+Клонирование в «projects/lab04»…
+remote: Counting objects: 23, done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 23 (delta 0), reused 3 (delta 0), pack-reused 19
+Распаковка объектов: 100% (23/23), готово.
+Проверка соединения… готово.
+vaulex@vm-mgtu:~/vaulex/workspace$ cd projects/lab04
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ git remote remove origin
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ git remote add origin https://github.com/${GITHUB_USERNAME}/lab04.git
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ git remote -v
+origin	https://github.com/vaulex/lab04.git (fetch)
+origin	https://github.com/vaulex/lab04.git (push)
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ g++ -I./include -std=c++11 -c sources/print.cppvaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ ls print.o
+print.o
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ nm print.o | grep print
+00000077 t _GLOBAL__sub_I__Z5printRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSo
+00000000 T _Z5printRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSo
+0000001a T _Z5printRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSt14basic_ofstreamIcS2_E
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ ar rvs print.a print.o
+ar: создаётся print.a
+a - print.o
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ file print.a
+print.a: current ar archive
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ g++ -I./include -std=c++11 -c examples/example1.cpp
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ ls example1.o
+example1.o
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ g++ example1.o print.a -o example1
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ ./example1 && echo
+hello
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ g++ -I./include -std=c++11 -c examples/example2.cpp
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ nm example2.o
+         U __cxa_atexit
+         U __dso_handle
+0000017c t _GLOBAL__sub_I_main
+         U __gxx_personality_v0
+00000000 T main
+         U __stack_chk_fail
+         U _Unwind_Resume
+0000013a t _Z41__static_initialization_and_destruction_0ii
+         U _Z5printRKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERSt14basic_ofstreamIcS2_E
+         U _ZNSaIcEC1Ev
+         U _ZNSaIcED1Ev
+         U _ZNSt14basic_ofstreamIcSt11char_traitsIcEEC1EPKcSt13_Ios_Openmode
+         U _ZNSt14basic_ofstreamIcSt11char_traitsIcEED1Ev
+         U _ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEC1EPKcRKS3_
+         U _ZNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEED1Ev
+         U _ZNSt8ios_base4InitC1Ev
+         U _ZNSt8ios_base4InitD1Ev
+00000000 r _ZStL19piecewise_construct
+00000000 b _ZStL8__ioinit
+00000000 W _ZStorSt13_Ios_OpenmodeS_
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ g++ example2.o print.a -o example2
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ ./example2
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ cat log.txt && echo
+hello
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ rm -rf example1.o example2.o print.o
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ rm -rf print.a
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ rm -rf example1 example2
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ rm -rf log.txt
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ cat > CMakeLists.txt <<EOF
+> cmake_minimum_required(VERSION 3.0)
+> project(print)
+> EOF
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ cat >> CMakeLists.txt <<EOF
+> set(CMAKE_CXX_STANDARD 11)
+> set(CMAKE_CXX_STANDARD_REQUIRED ON)
+> EOF
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ cat > CMakeLists.txt <<EOF
+> eof
+> EOF
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ cat >> CMakeLists.txt <<EOF
+> EOF
+vaulex@vm-mgtu:~/vaulex/workspace/projects/lab04$ cmake -H. -B_build
+
